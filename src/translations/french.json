@@ -1,0 +1,11 @@
+{
+  "french": {
+    "greeting": "Bonjour!!",
+    "login": "SE CONNECTER",
+    "signUp": "INSCRIPTION D'UN NOUVEL UTILISATEUR",
+    "logout": "SE DÉCONNECTER",
+    "home": "MAISON",
+    "email": "Email",
+    "password": "Mot de passe"
+  }
+}

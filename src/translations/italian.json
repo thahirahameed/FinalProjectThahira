@@ -1,0 +1,11 @@
+{
+  "italian": {
+    "greeting": "Buongiorno!!",
+    "login": "LOGIN",
+    "signUp": "ISCRIZIONE NUOVO UTENTE",
+    "logout": "DISCONNETTERSI",
+    "home": "CASA",
+    "email": "Email",
+    "password": "Parola d'ordine"
+  }
+}

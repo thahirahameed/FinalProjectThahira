@@ -1,0 +1,11 @@
+{
+  "english": {
+    "greeting": "Good morning!!",
+    "login": "LOGIN",
+    "signUp": "NEW USER SIGN UP",
+    "logout": "LOGOUT",
+    "home": "HOME",
+    "email": "Email",
+    "password": "Password"
+  }
+}

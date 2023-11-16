@@ -1,0 +1,11 @@
+{
+  "spanish": {
+    "greeting": "Buen día!!",
+    "login": "ACCESO",
+    "signUp": "REGISTRO DE NUEVO USUARIO",
+    "logout": "CERRAR SESIÓN",
+    "home": "HOGAR",
+    "email": "Correo electrónico",
+    "password": " Contraseña"
+  }
+}
