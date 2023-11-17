@@ -6,6 +6,8 @@
     "logout": "SE DÉCONNECTER",
     "home": "MAISON",
     "email": "Email",
-    "password": "Mot de passe"
+    "password": "Mot de passe",
+    "refresh": "Rafraîchir la page",
+    "languageSelector": "Sélecteur de langue"
   }
 }

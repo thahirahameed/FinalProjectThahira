@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Button} from 'react-native';
+import {LocaleHelper} from '../helper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import {LocaleHelper} from '../helper';
-import {LoginScreen, DashboardScreen} from '../screens';
+import {LoginScreen} from '../screens';
+import LanguageNavigator from '../LanguageNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,14 +36,14 @@ const Navigator = () => {
       <Stack.Group>
         <Stack.Screen
           name="dashboardScreen"
-          component={DashboardScreen}
+          component={LanguageNavigator}
           options={{
             title: 'Dashboard Screen',
             headerRight: () => (
               <Button
                 onPress={() => {}}
                 title={LocaleHelper.t('home')}
-                color="red"
+                color="green"
               />
             ),
           }}

@@ -6,6 +6,8 @@
     "logout": "DISCONNETTERSI",
     "home": "CASA",
     "email": "Email",
-    "password": "Parola d'ordine"
+    "password": "Parola d'ordine",
+    "refresh": "Aggiorna pagina",
+    "languageSelector": "Selettore lingua"
   }
 }

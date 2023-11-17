@@ -6,6 +6,8 @@
     "logout": "CERRAR SESIÓN",
     "home": "HOGAR",
     "email": "Correo electrónico",
-    "password": " Contraseña"
+    "password": " Contraseña",
+    "refresh": "Actualizar página",
+    "languageSelector": "Selector de idioma"
   }
 }

@@ -11,6 +11,6 @@ const i18n = new I18n({
   ...spanish,
 });
 
-i18n.locale = 'spanish';
+i18n.locale = 'english';
 
 export default i18n;

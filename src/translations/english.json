@@ -6,6 +6,8 @@
     "logout": "LOGOUT",
     "home": "HOME",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "refresh": "Refresh Page",
+    "languageSelector": "Language Selector"
   }
 }
