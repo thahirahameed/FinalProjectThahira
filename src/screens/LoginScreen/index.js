@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {LocaleHelper} from '../../helper';
 
@@ -33,6 +41,7 @@ const LoginScreen = () => {
         console.error(error);
       });
   };
+
   const handleLoginPress = () => {
     auth()
       .signInWithEmailAndPassword(email, password)
@@ -52,65 +61,66 @@ const LoginScreen = () => {
   //  if (initializing) return null;
 
   return (
-    <View>
-      <TextInput
-        autoCapitalize="none"
-        value={email}
-        onChangeText={changedText => {
-          setEmail(changedText);
-        }}
-        placeholder={LocaleHelper.t('email')}
-        style={{
-          backgroundColor: 'lightgrey',
-          padding: 10,
-          margin: 10,
-          height: 40,
-        }}
-      />
-      <TextInput
-        value={password}
-        onChangeText={changedText => {
-          setPassword(changedText);
-        }}
-        secureTextEntry
-        placeholder={LocaleHelper.t('password')}
-        style={{
-          backgroundColor: 'lightgrey',
-          padding: 10,
-          margin: 10,
-          height: 40,
-        }}
-      />
-
-      <TouchableOpacity
-        onPress={() => {
-          handleLoginPress();
-        }}
-        style={{
-          margin: 10,
-          height: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'lightblue',
-        }}>
-        <Text>{LocaleHelper.t('login')}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          handleSignnUpPress();
-        }}
-        style={{
-          margin: 10,
-          height: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'lightblue',
-        }}>
-        <Text>{LocaleHelper.t('signUp')}</Text>
-      </TouchableOpacity>
+    <View style={style.containerStyle}>
+      <ImageBackground
+        style={style.imageBackgroundStyle}
+        source={require('/Users/thahirakadevalappil/Documents/React/FinalProjectThahira/src/images/loginImage2.jpeg')}>
+        <View style={{marginTop: 100}}>
+          <TextInput
+            autoCapitalize="none"
+            value={email}
+            onChangeText={changedText => {
+              setEmail(changedText);
+            }}
+            placeholder={LocaleHelper.t('email')}
+            style={style.inputStyle}
+          />
+          <TextInput
+            value={password}
+            onChangeText={changedText => {
+              setPassword(changedText);
+            }}
+            secureTextEntry
+            placeholder={LocaleHelper.t('password')}
+            style={style.inputStyle}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              handleLoginPress();
+            }}
+            style={style.buttonStyle}>
+            <Text>{LocaleHelper.t('login')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              handleSignnUpPress();
+            }}
+            style={style.buttonStyle}>
+            <Text>{LocaleHelper.t('signUp')}</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
 
+const style = StyleSheet.create({
+  containerStyle: {
+    margin: 10,
+  },
+  inputStyle: {
+    backgroundColor: 'lightgrey',
+    padding: 10,
+    margin: 10,
+    height: 40,
+  },
+  buttonStyle: {
+    margin: 10,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'lightblue',
+  },
+  imageBackgroundStyle: {height: 600, width: 'auto'},
+});
 export default LoginScreen;

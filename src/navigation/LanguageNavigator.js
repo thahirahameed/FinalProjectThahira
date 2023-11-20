@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
-import {LocaleHelper} from './helper';
-import {NavigationContainer} from '@react-navigation/native';
-import {DashboardScreen} from './screens';
+import {LocaleHelper} from '../helper';
+import {DashboardScreen} from '../screens';
 import {
   DrawerContentScrollView,
   createDrawerNavigator,

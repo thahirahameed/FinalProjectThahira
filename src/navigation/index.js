@@ -4,7 +4,7 @@ import {LocaleHelper} from '../helper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import {LoginScreen} from '../screens';
-import LanguageNavigator from '../LanguageNavigator';
+import LanguageNavigator from './LanguageNavigator';
 
 const Stack = createNativeStackNavigator();
 
