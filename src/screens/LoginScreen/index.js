@@ -1,15 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Image,
   ImageBackground,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {InputControl} from '../../components';
+import * as yup from 'yup';
 import {LocaleHelper} from '../../helper';
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is a required field')
+    .email('Invalid Email')
+    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid Email'),
+  password: yup
+    .string()
+    .required('Password is required field')
+    .matches(/^(?=.*\d).{6,}$/, 'Invalid Password'),
+});
 
 const LoginScreen = () => {
   const [initializing, setInitializing] = useState(true);
@@ -17,13 +31,29 @@ const LoginScreen = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    mode: 'all',
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
   //Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
     if (initializing) setInitializing(false);
   }
 
-  const handleSignnUpPress = () => {
+  const handleSignnUpPress = formData => {
+    setEmail(formData.email);
+    setPassword(formData.password);
+
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
@@ -42,7 +72,10 @@ const LoginScreen = () => {
       });
   };
 
-  const handleLoginPress = () => {
+  const handleLoginPress = formData => {
+    setEmail(formData.email);
+    setPassword(formData.password);
+
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
@@ -66,35 +99,32 @@ const LoginScreen = () => {
         style={style.imageBackgroundStyle}
         source={require('/Users/thahirakadevalappil/Documents/React/FinalProjectThahira/src/images/loginImage2.jpeg')}>
         <View style={{marginTop: 100}}>
-          <TextInput
-            autoCapitalize="none"
-            value={email}
-            onChangeText={changedText => {
-              setEmail(changedText);
-            }}
+          <InputControl
+            control={control}
+            name={'email'}
             placeholder={LocaleHelper.t('email')}
-            style={style.inputStyle}
+            error={errors?.email}
           />
-          <TextInput
-            value={password}
-            onChangeText={changedText => {
-              setPassword(changedText);
-            }}
-            secureTextEntry
+          <InputControl
+            control={control}
+            name={'password'}
             placeholder={LocaleHelper.t('password')}
-            style={style.inputStyle}
+            error={errors?.password}
           />
+
           <TouchableOpacity
-            onPress={() => {
-              handleLoginPress();
-            }}
+            onPress={handleSubmit(formData => {
+              console.log(formData);
+              handleLoginPress(formData);
+            })}
             style={style.buttonStyle}>
             <Text>{LocaleHelper.t('login')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              handleSignnUpPress();
-            }}
+            onPress={handleSubmit(formData => {
+              console.log(formData);
+              handleSignnUpPress(formData);
+            })}
             style={style.buttonStyle}>
             <Text>{LocaleHelper.t('signUp')}</Text>
           </TouchableOpacity>
