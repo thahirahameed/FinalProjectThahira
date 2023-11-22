@@ -3,7 +3,7 @@ import {Button} from 'react-native';
 import {LocaleHelper} from '../helper';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import {LoginScreen} from '../screens';
+import {LoginScreen, SignUpScreen} from '../screens';
 import LanguageNavigator from './LanguageNavigator';
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +59,11 @@ const Navigator = () => {
           name="loginScreen"
           component={LoginScreen}
           options={{title: 'Login Screen'}}
+        />
+        <Stack.Screen
+          name="signUpScreen"
+          component={SignUpScreen}
+          options={{title: 'Sign Up Screen'}}
         />
       </Stack.Group>
     );

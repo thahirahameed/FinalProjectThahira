@@ -25,7 +25,7 @@ const schema = yup.object().shape({
     .matches(/^(?=.*\d).{6,}$/, 'Invalid Password'),
 });
 
-const LoginScreen = () => {
+const LoginScreen = props => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState('');
   const [email, setEmail] = useState();
@@ -49,28 +49,6 @@ const LoginScreen = () => {
     setUser(user);
     if (initializing) setInitializing(false);
   }
-
-  const handleSignnUpPress = formData => {
-    setEmail(formData.email);
-    setPassword(formData.password);
-
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('User account created & signed in!');
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
-  };
 
   const handleLoginPress = formData => {
     setEmail(formData.email);
@@ -120,11 +98,11 @@ const LoginScreen = () => {
             style={style.buttonStyle}>
             <Text>{LocaleHelper.t('login')}</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            onPress={handleSubmit(formData => {
-              console.log(formData);
-              handleSignnUpPress(formData);
-            })}
+            onPress={() => {
+              props.navigation.navigate('signUpScreen');
+            }}
             style={style.buttonStyle}>
             <Text>{LocaleHelper.t('signUp')}</Text>
           </TouchableOpacity>
