@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     padding: 5,
 
-    backgroundColor: 'grey',
+    backgroundColor: 'lightgrey',
   },
   errorStyle: {
     marginHorizontal: 10,

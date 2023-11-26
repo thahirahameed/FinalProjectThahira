@@ -1,11 +1,15 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import firebase from '@react-native-firebase/app';
+import firestore, {collection, addDoc} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {InputControl} from '../../components';
 import * as yup from 'yup';
 import {LocaleHelper} from '../../helper';
+
+const db = firestore();
 
 const schema = yup.object().shape({
   email: yup
@@ -15,19 +19,22 @@ const schema = yup.object().shape({
     .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid Email'),
   password: yup
     .string()
-    .required('Firstname is required field')
+    .required('Password is a required field')
     .matches(/^(?=.*\d).{6,}$/, 'Invalid Password'),
   firstname: yup
     .string()
-    .required('Lastname is required field')
+    .required('First Name is required field')
     .matches(/^[A-Za-z]+$/, 'Invalid Name'),
   lastname: yup
     .string()
-    .required('Lastname is required field')
+    .required('Last Name is a required field')
     .matches(/^[A-Za-z]+$/, 'Invalid Name'),
 });
 
-export default function SignUpScreen() {
+export default function SignUpScreen(props) {
+  const [user, setUser] = useState('');
+  const [initializing, setInitializing] = useState(true);
+
   const {
     control,
     handleSubmit,
@@ -41,7 +48,19 @@ export default function SignUpScreen() {
     },
   });
 
-  const handleSignnUpPress = formData => {
+  //Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  const handleSignUpPress = formData => {
+    addData(formData.firstname, formData.lastname, formData.email);
     auth()
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then(() => {
@@ -60,13 +79,28 @@ export default function SignUpScreen() {
       });
   };
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
+  const addData = async (fn, ln, em) => {
+    try {
+      const userProfile = firestore().collection('UserProfile');
+      await userProfile.add({
+        firstName: fn,
+        lastname: ln,
+        email: em,
+        age: '23',
+        gender: 'female',
+        author: 'Thahira',
+        userColor: 'red',
+        userLocation: 'London, UK',
+        userId: '1',
+      });
+      console.log('Added data to firestore successfully');
+    } catch (e) {
+      console.error('Error adding data to firestore: ', e);
+    }
+  };
 
   return (
-    <View>
+    <View style={style.containerStyle}>
       <Text></Text>
       <InputControl
         control={control}
@@ -95,7 +129,8 @@ export default function SignUpScreen() {
       <TouchableOpacity
         onPress={handleSubmit(formData => {
           console.log(formData);
-          handleSignnUpPress(formData);
+          handleSignUpPress(formData);
+          props.navigation.navigate('dashboardScreen');
         })}
         style={style.buttonStyle}>
         <Text>SUBMIT</Text>
@@ -107,12 +142,9 @@ export default function SignUpScreen() {
 const style = StyleSheet.create({
   containerStyle: {
     margin: 10,
-  },
-  inputStyle: {
-    backgroundColor: 'lightgrey',
+    borderColor: 'red',
+    borderWidth: 5,
     padding: 10,
-    margin: 10,
-    height: 40,
   },
   buttonStyle: {
     margin: 10,
@@ -121,5 +153,4 @@ const style = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'lightblue',
   },
-  imageBackgroundStyle: {height: 600, width: 'auto'},
 });
