@@ -8,6 +8,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {InputControl} from '../../components';
 import * as yup from 'yup';
 import {LocaleHelper} from '../../helper';
+import {useUserContext} from '../../contexts/UserContext';
 
 const db = firestore();
 
@@ -48,6 +49,11 @@ export default function SignUpScreen(props) {
     },
   });
 
+  const {
+    state: {userId},
+    actions: {setUserId},
+  } = useUserContext();
+
   //Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
@@ -60,7 +66,7 @@ export default function SignUpScreen(props) {
   }, []);
 
   const handleSignUpPress = formData => {
-    addData(formData.firstname, formData.lastname, formData.email);
+    addData(formData);
     auth()
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then(() => {
@@ -79,19 +85,19 @@ export default function SignUpScreen(props) {
       });
   };
 
-  const addData = async (fn, ln, em) => {
+  const addData = async formData => {
     try {
       const userProfile = firestore().collection('UserProfile');
       await userProfile.add({
-        firstName: fn,
-        lastname: ln,
-        email: em,
+        firstName: formData.firstname,
+        lastname: formData.lastname,
+        email: formData.email,
         age: '23',
         gender: 'female',
         author: 'Thahira',
         userColor: 'red',
         userLocation: 'London, UK',
-        userId: '1',
+        userId: userId,
       });
       console.log('Added data to firestore successfully');
     } catch (e) {

@@ -12,6 +12,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {InputControl} from '../../components';
 import * as yup from 'yup';
 import {LocaleHelper} from '../../helper';
+import {useUserContext} from '../../contexts/UserContext';
 
 const schema = yup.object().shape({
   email: yup
@@ -32,6 +33,11 @@ const LoginScreen = props => {
   const [password, setPassword] = useState();
 
   const {
+    state: {userId},
+    actions: {setUserId},
+  } = useUserContext();
+
+  const {
     control,
     handleSubmit,
     formState: {errors},
@@ -47,6 +53,9 @@ const LoginScreen = props => {
   //Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
+    console.log(user);
+    setUserId(user._user.uid);
+    console.log(userId);
     if (initializing) setInitializing(false);
   }
 
